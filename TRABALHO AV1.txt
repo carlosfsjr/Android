@@ -1,0 +1,177 @@
+import React from "react";
+import {
+  StyleSheet,
+  Text,
+  FlatList,
+  TextInput,
+  View,
+  TouchableOpacity,
+} from "react-native";
+
+export default class App extends React.Component {
+  state = {
+    cod: 0,
+    desc: '',
+    preco: 0,
+    qtd: 0,
+
+    inputCod: React.createRef(),
+    inputDesc: React.createRef(),
+    inputPreco: React.createRef(),
+    inputQtd: React.createRef(),
+
+    lista: [
+       
+    ],
+  };
+
+  chave = this.state.lista.length;
+
+  addProduto = this.addProduto.bind(this);
+  apagarProduto = this.apagarProduto.bind(this);
+  editarProduto = this.editarProduto.bind(this);
+
+  resetInputs(){
+    this.state.cod = '';
+    this.state.desc = '';
+    this.state.preco = '';
+    this.state.qtd = '';
+
+    this.state.inputCod.current.value = '';
+    this.state.inputDesc.current.value = '';
+    this.state.inputPreco.current.value = '';
+    this.state.inputQtd.current.value = '';
+  }
+
+  editarProduto(){
+    const indice = this.state.lista.findIndex(
+      item => (item.cod == this.state.cod));
+      
+    this.state.lista[indice].desc = this.state.desc;
+    this.state.lista[indice].preco = this.state.preco;
+    this.state.lista[indice].qtd = this.state.qtd;
+
+    this.resetInputs();
+
+    this.setState(this.state.lista);
+
+  }
+
+  apagarProduto(){
+    const filtro = this.state.lista.filter(
+      item => ( item.cod != this.state.cod));
+      
+      console.log(filtro);
+
+      this.resetInputs();
+
+      this.setState({lista: filtro});
+  }
+
+
+
+  addProduto() {
+    if(this.state.cod == '' || this.state.desc == '' || this.state.preco=='' || this.state.qtd==''){
+      return;
+    }
+    this.state.lista.push({ cod: this.state.cod, desc: this.state.desc, preco: this.state.preco, qtd:this.state.qtd });
+    this.setState(this.state);
+
+    this.resetInputs();
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <View>
+          <TextInput 
+            style={styles.entrada} 
+            placeholder="Código" 
+            ref={this.state.inputCod}
+            onChangeText={(cod) => {this.setState({cod})}}
+          />
+
+          <TextInput 
+            style={styles.entrada} 
+            placeholder="Descrição" 
+            ref={this.state.inputDesc}
+            onChangeText={(desc) => {this.setState({desc})}}
+          />
+          <TextInput 
+            style={styles.entrada} 
+            placeholder="Preço" 
+            ref={this.state.inputPreco}
+            onChangeText={(preco) => {this.setState({preco})}}
+          />
+          <TextInput 
+            style={styles.entrada} 
+            placeholder="Quantidade" 
+            ref={this.state.inputQtd}
+            onChangeText={(qtd) => {this.setState({qtd})}}
+          />
+        </View>
+
+        <View>
+          <TouchableOpacity 
+          style={styles.botao} 
+          onPress={this.addProduto}>
+            <Text style={styles.textoBotao}>Adicionar</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+          style={styles.botao}
+          onPress={this.apagarProduto}>
+            <Text style={styles.textoBotao}>Apagar</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+          style={styles.botao}
+          onPress={this.editarProduto}>
+            <Text style={styles.textoBotao}>Editar</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View>
+          <FlatList
+            data={this.state.lista}
+            renderItem={({ item }) => (
+              <Text style={styles.item}>{"["+item.cod+"] "+item.desc + "\nPreço: R$" + item.preco+"\nQuantidade: "+item.qtd}</Text>
+            )}
+          />
+        </View>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  entrada: {
+    textAlign: "center",
+    borderWidth: 2,
+    marginBottom: 3,
+    fontSize: 20,
+  },
+  botao: {
+    alignItems: "center",
+    backgroundColor: "orange",
+    padding: 10,
+    marginBottom: 6,
+    borderRadius: 20,
+    fontSize: 20,
+  },
+  textoBotao: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  item: {
+    marginBottom: 1,
+    fontSize: 20,
+    color: "gray",
+  },
+});
