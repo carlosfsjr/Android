@@ -1,0 +1,29 @@
+import React from 'react';
+import { StyleSheet, View, Text } from 'react-native';
+
+class HomeScreen extends React.Component{
+    render(){
+        return(
+            <View style={estilos.container}>
+                <Text style={estilos.titulo}>MeuAPP!</Text>
+
+                <Text style={estilos.texto}>Obrigado por utilizar os serviços do MeuAPP!</Text>
+            </View>
+        );
+    }
+}
+
+const estilos = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },titulo: {
+        fontSize: 30,
+        marginBottom: 10,
+    },texto:{
+        fontSize: 16
+    }
+});
+
+export default HomeScreen;

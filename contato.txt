@@ -1,0 +1,35 @@
+import React from 'react';
+import { StyleSheet, View, Text, Linking, Button } from 'react-native';
+
+class ContatoScreen extends React.Component{
+    render(){
+        return(
+            <View style={estilos.container}>
+                <Text style={estilos.titulo}>CONTATO</Text>
+
+                <Button
+                    onPress={() =>
+                    Linking.openURL('tel:12345678')} title='Ligar'/>   
+
+                <Button
+                    onPress={() =>
+                    Linking.openURL('mailto:contato@meuapp.com?subject=ASSUNTO&body=CORPO_DO_EMAIL')} title='EMAIL'/>                   
+            </View>
+        );
+    }
+}
+
+const estilos = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },titulo: {
+        fontSize: 30,
+        marginBottom: 10,
+    },texto:{
+        fontSize: 16
+    }
+});
+
+export default ContatoScreen;

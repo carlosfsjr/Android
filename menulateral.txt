@@ -1,0 +1,27 @@
+import 'react-native-gesture-handler';
+import React from 'react';
+import{createDrawerNavigator} from '@react-navigation/drawer';
+import{NavigationContainer} from '@react-navigation/native';
+
+import Home from '../componentes/HomeScreen';
+import Sobre from '../componentes/SobreScreen';
+import Atividades from '../componentes/AtividadesScreen';
+import Contato from '../componentes/ContatoScreen';
+
+const Drawer= createDrawerNavigator();
+
+class MenuLateral extends React.Component{
+  render(){
+    return(
+      <NavigationContainer>
+        <Drawer.Navigator>
+          <Drawer.Screen name='Home' component={Home}/>
+          <Drawer.Screen name='Atividades' component={Atividades}/>
+          <Drawer.Screen name='Sobre' component={Sobre}/>
+          <Drawer.Screen name='Contato' component={Contato}/>
+        </Drawer.Navigator>
+      </NavigationContainer>
+
+    );
+  }
+}export default MenuLateral;

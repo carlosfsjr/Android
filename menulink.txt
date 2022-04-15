@@ -1,0 +1,40 @@
+import 'react-native-gesture-handler';
+import React from 'react';
+import {View, Button} from 'react-native';
+import{createStackNavigator} from '@react-navigation/stack';
+import{NavigationContainer} from '@react-navigation/native';
+
+import Home from '../componentes/HomeScreen';
+import Sobre from '../componentes/SobreScreen';
+import Atividades from '../componentes/AtividadesScreen';
+import Contato from '../componentes/ContatoScreen';
+
+function TelaInicial({navigation}){
+  return(
+    <View>
+      <Button onPress={() => navigation.navigate('Home')} title='Home'/>
+      <Button onPress={() => navigation.navigate('Atividades')} title='Atividades'/>
+      <Button onPress={() => navigation.navigate('Sobre')} title='Sobre'/>
+      <Button onPress={() => navigation.navigate('Contato')} title='Contato'/>
+    </View>
+  );
+}
+
+const Stack = createStackNavigator();
+
+class MenuLink extends React.Component{
+  render(){
+    return(
+      <NavigationContainer>
+        <Stack.Navigator>
+        <Stack.Screen name= 'Menu Principal' component={TelaInicial}/>
+        <Stack.Screen name= 'Home' component={Home}/>
+        <Stack.Screen name= 'Atividades' component={Atividades}/>
+        <Stack.Screen name= 'Sobre' component={Sobre}/>
+        <Stack.Screen name= 'Contato' component={Contato}/>
+        </Stack.Navigator>
+         
+      </NavigationContainer>  
+    )
+  }
+}export default MenuLink;
