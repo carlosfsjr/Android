@@ -1,0 +1,202 @@
+import React from "react";
+import {
+  StyleSheet,
+  Text,
+  FlatList,
+  TextInput,
+  View,
+  TouchableOpacity,
+} from "react-native";
+
+export default class App extends React.Component {
+  state = {
+    cod: 0,
+    desc: '',
+    preco: 0,
+    qtd: 0,
+    
+
+    inputCod: React.createRef(),
+    inputDesc: React.createRef(),
+    inputPreco: React.createRef(),
+    inputQtd: React.createRef(),
+
+    lista: [
+       
+    ],
+  };
+
+  chave = this.state.lista.length;
+
+  addProduto = this.addProduto.bind(this);
+  apagarProduto = this.apagarProduto.bind(this);
+  editarProduto = this.editarProduto.bind(this);
+
+  resetInputs(){
+    this.state.cod = '';
+    this.state.desc = '';
+    this.state.preco = '';
+    this.state.qtd = '';
+
+    this.state.inputCod.current.value = '';
+    this.state.inputDesc.current.value = '';
+    this.state.inputPreco.current.value = '';
+    this.state.inputQtd.current.value = '';
+  }
+
+  editarProduto(){
+    if(this.state.cod == '' || this.state.desc == '' || this.state.preco=='' || this.state.qtd==''){
+      return;
+    }
+    const indice = this.state.lista.findIndex(
+      item => (item.cod == this.state.cod));
+      
+    this.state.lista[indice].desc = this.state.desc;
+    this.state.lista[indice].preco = this.state.preco;
+    this.state.lista[indice].qtd = this.state.qtd;
+
+    this.resetInputs();
+
+    this.setState(this.state.lista);
+
+  }
+
+  apagarProduto(){
+    const filtro = this.state.lista.filter(
+      item => ( item.cod != this.state.cod));
+      
+      console.log(filtro);
+
+      this.resetInputs();
+
+      this.setState({lista: filtro});
+  }
+
+
+
+  addProduto() {
+   
+    if(this.state.cod == '' || this.state.desc == '' || this.state.preco=='' || this.state.qtd=='' || this.state.lista.findIndex(item=>(item.cod==this.state.cod))!=-1){
+      return;
+    }
+    this.state.lista.push({ cod: this.state.cod, desc: this.state.desc, preco: this.state.preco, qtd:this.state.qtd });
+    this.setState(this.state);
+
+    this.resetInputs();
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <View>
+          <TextInput keyboardType='numeric'
+            style={styles.entrada} 
+            placeholder="Código" 
+            ref={this.state.inputCod}
+            onChangeText={(cod) => {this.setState({cod})}}
+          />
+
+          <TextInput 
+            style={styles.entrada} 
+            placeholder="Descrição" 
+            ref={this.state.inputDesc}
+            onChangeText={(desc) => {this.setState({desc})}}
+          />
+          <TextInput keyboardType='numeric'
+            style={styles.entrada} 
+            placeholder="Preço" 
+            ref={this.state.inputPreco}
+            onChangeText={(preco) => {this.setState({preco})}}
+          />
+          <TextInput keyboardType='numeric'
+            style={styles.entrada} 
+            placeholder="Quantidade" 
+            ref={this.state.inputQtd}
+            onChangeText={(qtd) => {this.setState({qtd})}}
+          />
+        </View>
+
+        <View style={styles.containerBotao}>
+          <TouchableOpacity 
+          style={styles.botao} 
+          onPress={this.addProduto}>
+            <Text style={styles.textoBotao}>Adicionar</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+          style={styles.botao}
+          onPress={this.apagarProduto}>
+            <Text style={styles.textoBotao}>Apagar</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+          style={styles.botao}
+          onPress={this.editarProduto}>
+            <Text style={styles.textoBotao}>Editar</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.containerItem}>
+          <FlatList
+            data={this.state.lista}
+            renderItem={({ item }) => (
+              <Text style={styles.item}>{"["+item.cod+"] "+item.desc + "\nPreço: "+ Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(item.preco)+"\nQuantidade: "+item.qtd}</Text>
+            )}
+          />
+        </View>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  entrada: {  
+    justifyContent:"center",
+    width: 320,
+    borderWidth: 2,
+    borderColor: "black",
+    textAlign: "center",
+    fontSize:20,
+    marginBottom: 5,
+  },
+  botao: {
+    backgroundColor:"black",
+    width: 90,
+    height: 40,
+    borderRadius: 10,
+    margin: 1,
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    cursor: 'pointer',
+  },
+  textoBotao: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  containerBotao: {
+    width: 320,
+    flexDirection: "row",
+    marginBottom:5,
+    padding: 2,
+    justifyContent: "center",
+  },
+   item: {
+    marginBottom: 1,
+    fontSize: 20,
+    color: "gray",
+    borderBottomColor:"black",
+    borderBottomWidth: 2,
+  },
+  containerItem:{
+    width:320,
+  },
+  
+ 
+});
