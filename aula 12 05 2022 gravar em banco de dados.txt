@@ -1,0 +1,59 @@
+import React, {useState} from 'react';
+import AS_Carros from '@react-native-async-storage/async-storage';
+import { Text, View, StyleSheet } from 'react-native';
+
+
+
+
+export default function App() {
+
+  const[placa, setPlaca] = useState('');
+  const[modelo, setModelo] = useState('');
+  const[preco, setPreco] = useState('');
+  const[marca, setMarca] = useState('');
+
+  async function gravarCarro(chave, inputPlaca, inputModelo, inputPreco, inputMarca){
+    const carro ={placa: inputPlaca, modelo: inputModelo, preco: inputPreco, marca: inputMarca};
+
+    //Serializando o Carros
+    const carroJSON = JSON.stringify(carro);
+    //Gravando no arquivo
+    await AS_Carros.setItem(chave, carroJSON);
+  }
+
+  async function buscarCarro(chave){
+    //RECUPERA O DADO DO ARQUIVO(SERIALIZADO)
+    const carroJSON = await AS_Carros.getItem(chave);
+    //DESERIALIZA OS DADOS
+    setPlaca(JSON.parse(carroJSON).placa);
+    setModelo(JSON.parse(carroJSON).modelo);
+    setPreco(JSON.parse(carroJSON).preco);
+    setMarca(JSON.parse(carroJSON).marca);
+  }
+
+  
+  
+  gravarCarro('1', 'LVE2J49', 'VIRTUS', 'R$ 66.800,00', 'VW' );
+  buscarCarro('1');
+
+  return (
+    <View style={styles.container}>
+      <Text>Carro:</Text>
+      <Text> Placa: {placa}</Text>
+      <Text> Modelo: {modelo}</Text>
+      <Text> Preço: {preco}</Text>
+      <Text> Marca: {marca}</Text>
+    
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#ecf0f1',
+    padding: 8,
+  },
+ 
+});
