@@ -1,0 +1,23 @@
+distribuição
+
+roteirização
+
+se os documentos estiverem disponíveis da filial
+
+veículo disponível  
+
+criação de viagem de carregamento
+
+Impressão do romaneio direcionado a operação
+
+separação da carga
+
+conferencia da carga
+
+caso a a carga estja sem avarias ou completa
+
+carregamento
+
+validação do carregamento pela expidição
+
+emissão do manifesto para liberação da viagem
